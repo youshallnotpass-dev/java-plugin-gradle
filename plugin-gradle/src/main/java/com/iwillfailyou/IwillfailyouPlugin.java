@@ -7,6 +7,7 @@ import com.iwillfailyou.plugin.IwfyException;
 import com.iwillfailyou.plugin.IwfyPlugin;
 import com.iwillfailyou.plugin.IwfyUrls;
 import com.iwillfailyou.plugin.PublicInspection;
+import com.iwillfailyou.staticfree.StaticfreeInspection;
 import com.nikialeksey.goo.Goo;
 import com.nikialeksey.goo.GooException;
 import com.nikialeksey.goo.Origin;
@@ -31,9 +32,14 @@ public class IwillfailyouPlugin implements Plugin<Project> {
         );
         final ExtensionAware settingsExtension = (ExtensionAware) settings;
         final ExtensionContainer settingsExtensions = settingsExtension.getExtensions();
+
         final NullfreeExtension nullfreeSettings = settingsExtensions.create(
             "nullfree",
             NullfreeExtension.class
+        );
+        final StaticfreeExtension staticfreeSettings = settingsExtensions.create(
+            "staticfree",
+            StaticfreeExtension.class
         );
 
         target.task("iwillfailyou").doLast(task -> {
@@ -42,6 +48,10 @@ public class IwillfailyouPlugin implements Plugin<Project> {
                     new JavaSourceFileFactory(),
                     nullfreeSettings.getSkipComparisions(),
                     nullfreeSettings.getThreshold()
+                ),
+                new StaticfreeInspection(
+                    new com.iwillfailyou.staticfree.sources.java.JavaSourceFileFactory(),
+                    staticfreeSettings.getThreshold()
                 )
             );
             try {

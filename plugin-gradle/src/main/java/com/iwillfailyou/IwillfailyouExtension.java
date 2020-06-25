@@ -22,14 +22,6 @@ public class IwillfailyouExtension {
         this.offline = offline;
     }
 
-    public int getThreshold() {
-        return threshold.get(0);
-    }
-
-    public int setThreshold(final int threshold) {
-        return this.threshold.set(0, threshold);
-    }
-
     public boolean getOffline() {
         return offline.get(0);
     }

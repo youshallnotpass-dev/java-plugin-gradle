@@ -3,6 +3,7 @@ package com.iwillfailyou;
 import java.util.Arrays;
 import java.util.List;
 
+@SuppressWarnings("allfinal") // only for gradle plugin framework
 public class NullfreeExtension {
     private final List<Boolean> skipComparisions;
     private final List<Integer> threshold;

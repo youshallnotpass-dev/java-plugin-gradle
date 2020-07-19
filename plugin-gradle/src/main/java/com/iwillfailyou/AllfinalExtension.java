@@ -3,17 +3,16 @@ package com.iwillfailyou;
 import java.util.Arrays;
 import java.util.List;
 
-@SuppressWarnings("allfinal") // only for gradle plugin framework
-public class StaticfreeExtension {
+public final class AllfinalExtension {
     private final List<Integer> threshold;
 
-    public StaticfreeExtension() {
+    public AllfinalExtension() {
         this(
             Arrays.asList(0)
         );
     }
 
-    public StaticfreeExtension(
+    public AllfinalExtension(
         final List<Integer> threshold
     ) {
         this.threshold = threshold;

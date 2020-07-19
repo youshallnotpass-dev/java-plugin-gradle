@@ -3,7 +3,7 @@ package com.iwillfailyou;
 import com.iwillfailyou.plugin.Ui;
 import org.gradle.api.logging.Logger;
 
-public class GradleUi implements Ui {
+public final class GradleUi implements Ui {
 
     private final Logger logger;
 

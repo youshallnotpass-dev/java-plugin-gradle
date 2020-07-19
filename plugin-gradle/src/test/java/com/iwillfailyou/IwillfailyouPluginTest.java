@@ -6,7 +6,7 @@ import org.hamcrest.core.IsNull;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class IwillfailyouPluginTest {
+public final class IwillfailyouPluginTest {
     @Test
     public void applyPlugin() {
         final Project project = ProjectBuilder.builder().build();

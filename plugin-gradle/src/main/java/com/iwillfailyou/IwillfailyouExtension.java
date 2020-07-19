@@ -3,22 +3,19 @@ package com.iwillfailyou;
 import java.util.Arrays;
 import java.util.List;
 
+@SuppressWarnings("allfinal") // only for gradle plugin framework
 public class IwillfailyouExtension {
-    private final List<Integer> threshold;
     private final List<Boolean> offline;
 
     public IwillfailyouExtension() {
         this(
-            Arrays.asList(0),
             Arrays.asList(false)
         );
     }
 
     public IwillfailyouExtension(
-        final List<Integer> threshold,
         final List<Boolean> offline
     ) {
-        this.threshold = threshold;
         this.offline = offline;
     }
 

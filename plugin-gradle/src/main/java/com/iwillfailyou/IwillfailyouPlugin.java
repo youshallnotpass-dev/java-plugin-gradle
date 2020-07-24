@@ -44,9 +44,9 @@ public final class IwillfailyouPlugin implements Plugin<Project> {
             "staticfree",
             StaticfreeExtension.class
         );
-        final StaticfreeExtension allfinalSettings = settingsExtensions.create(
+        final AllfinalExtension allfinalSettings = settingsExtensions.create(
             "allfinal",
-            StaticfreeExtension.class
+            AllfinalExtension.class
         );
 
         target.task("iwillfailyou").doLast((final Task task) -> {
@@ -63,7 +63,8 @@ public final class IwillfailyouPlugin implements Plugin<Project> {
                 ),
                 new Allfinal(
                     sourceMask,
-                    allfinalSettings.getThreshold()
+                    allfinalSettings.getThreshold(),
+                    allfinalSettings.getSkipInterfaceMethodParams()
                 )
             );
             try {

@@ -3,6 +3,7 @@ package com.iwillfailyou;
 import com.iwillfailyou.inspection.sources.SourceMask;
 import com.iwillfailyou.inspection.sources.java.JavaSourceMask;
 import com.iwillfailyou.inspections.allfinal.Allfinal;
+import com.iwillfailyou.inspections.allpublic.Allpublic;
 import com.iwillfailyou.inspections.nullfree.Nullfree;
 import com.iwillfailyou.inspections.staticfree.Staticfree;
 import com.iwillfailyou.plugin.Inspection;
@@ -48,6 +49,10 @@ public final class IwillfailyouPlugin implements Plugin<Project> {
             "allfinal",
             AllfinalExtension.class
         );
+        final AllpublicExtension allpublicSettings = settingsExtensions.create(
+            "allpublic",
+            AllpublicExtension.class
+        );
 
         target.task("iwillfailyou").doLast((final Task task) -> {
             final SourceMask sourceMask = new JavaSourceMask();
@@ -64,7 +69,12 @@ public final class IwillfailyouPlugin implements Plugin<Project> {
                 new Allfinal(
                     sourceMask,
                     allfinalSettings.getThreshold(),
-                    allfinalSettings.getSkipInterfaceMethodParams()
+                    allfinalSettings.getSkipInterfaceMethodParams(),
+                    allfinalSettings.getSkipLambdaParams()
+                ),
+                new Allpublic(
+                    sourceMask,
+                    allpublicSettings.getThreshold()
                 )
             );
             try {

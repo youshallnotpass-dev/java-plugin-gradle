@@ -1,11 +1,5 @@
 package com.iwillfailyou;
 
-import com.iwillfailyou.inspection.sources.SourceMask;
-import com.iwillfailyou.inspection.sources.java.JavaSourceMask;
-import com.iwillfailyou.inspections.allfinal.Allfinal;
-import com.iwillfailyou.inspections.allpublic.Allpublic;
-import com.iwillfailyou.inspections.nullfree.Nullfree;
-import com.iwillfailyou.inspections.staticfree.Staticfree;
 import com.iwillfailyou.plugin.Inspection;
 import com.iwillfailyou.plugin.IwfyException;
 import com.iwillfailyou.plugin.IwfyPlugin;
@@ -55,27 +49,11 @@ public final class IwillfailyouPlugin implements Plugin<Project> {
         );
 
         target.task("iwillfailyou").doLast((final Task task) -> {
-            final SourceMask sourceMask = new JavaSourceMask();
             final List<Inspection> inspections = new ListOf<>(
-                new Nullfree(
-                    sourceMask,
-                    nullfreeSettings.getSkipComparisions(),
-                    nullfreeSettings.getThreshold()
-                ),
-                new Staticfree(
-                    sourceMask,
-                    staticfreeSettings.getThreshold()
-                ),
-                new Allfinal(
-                    sourceMask,
-                    allfinalSettings.getThreshold(),
-                    allfinalSettings.getSkipInterfaceMethodParams(),
-                    allfinalSettings.getSkipLambdaParams()
-                ),
-                new Allpublic(
-                    sourceMask,
-                    allpublicSettings.getThreshold()
-                )
+                nullfreeSettings.inspection(),
+                staticfreeSettings.inspection(),
+                allfinalSettings.inspection(),
+                allpublicSettings.inspection()
             );
             try {
                 final List<Inspection> wrapped;

@@ -1,5 +1,12 @@
 package com.iwillfailyou;
 
+import com.iwillfailyou.inspections.AllfinalExtension;
+import com.iwillfailyou.inspections.AllpublicExtension;
+import com.iwillfailyou.inspections.InspectionExtension;
+import com.iwillfailyou.inspections.NoMultipleReturnExtension;
+import com.iwillfailyou.inspections.NullfreeExtension;
+import com.iwillfailyou.inspections.SetterFreeExtension;
+import com.iwillfailyou.inspections.StaticfreeExtension;
 import com.iwillfailyou.plugin.Inspection;
 import com.iwillfailyou.plugin.IwfyException;
 import com.iwillfailyou.plugin.IwfyPlugin;
@@ -9,6 +16,7 @@ import com.nikialeksey.goo.Goo;
 import com.nikialeksey.goo.GooException;
 import com.nikialeksey.goo.Origin;
 import org.cactoos.list.ListOf;
+import org.cactoos.list.Mapped;
 import org.gradle.api.GradleScriptException;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
@@ -31,39 +39,40 @@ public final class IwillfailyouPlugin implements Plugin<Project> {
         final ExtensionAware settingsExtension = (ExtensionAware) settings;
         final ExtensionContainer settingsExtensions = settingsExtension.getExtensions();
 
-        final NullfreeExtension nullfreeSettings = settingsExtensions.create(
-            "nullfree",
-            NullfreeExtension.class
-        );
-        final StaticfreeExtension staticfreeSettings = settingsExtensions.create(
-            "staticfree",
-            StaticfreeExtension.class
-        );
-        final AllfinalExtension allfinalSettings = settingsExtensions.create(
-            "allfinal",
-            AllfinalExtension.class
-        );
-        final AllpublicExtension allpublicSettings = settingsExtensions.create(
-            "allpublic",
-            AllpublicExtension.class
-        );
-        final SetterFreeExtension setterfreeSettings = settingsExtensions.create(
-            "setterfree",
-            SetterFreeExtension.class
-        );
-        final NoMultipleReturnExtension nomultiplereturnSettings = settingsExtensions.create(
-            "nomultiplereturn",
-            NoMultipleReturnExtension.class
+        final List<InspectionExtension> inspectionExtensions = new ListOf<>(
+            settingsExtensions.create(
+                "nullfree",
+                NullfreeExtension.class
+            ),
+            settingsExtensions.create(
+                "staticfree",
+                StaticfreeExtension.class
+            ),
+            settingsExtensions.create(
+                "allfinal",
+                AllfinalExtension.class
+            ),
+            settingsExtensions.create(
+                "allpublic",
+                AllpublicExtension.class
+            ),
+            settingsExtensions.create(
+                "setterfree",
+                SetterFreeExtension.class
+            ),
+            settingsExtensions.create(
+                "nomultiplereturn",
+                NoMultipleReturnExtension.class
+            )
         );
 
         target.task("iwillfailyou").doLast((final Task task) -> {
-            final List<Inspection> inspections = new ListOf<>(
-                nullfreeSettings.inspection(),
-                staticfreeSettings.inspection(),
-                allfinalSettings.inspection(),
-                allpublicSettings.inspection(),
-                nomultiplereturnSettings.inspection(),
-                setterfreeSettings.inspection()
+            for (final InspectionExtension inspectionExtension : inspectionExtensions) {
+                inspectionExtension.inheritExclude(settings.getExclude());
+            }
+            final List<Inspection> inspections = new Mapped<>(
+                InspectionExtension::inspection,
+                inspectionExtensions
             );
             try {
                 final List<Inspection> wrapped;

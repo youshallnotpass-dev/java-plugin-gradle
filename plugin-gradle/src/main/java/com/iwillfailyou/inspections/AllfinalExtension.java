@@ -1,6 +1,5 @@
-package com.iwillfailyou;
+package com.iwillfailyou.inspections;
 
-import com.iwillfailyou.inspection.sources.java.JavaSourceMask;
 import com.iwillfailyou.inspections.allfinal.Allfinal;
 import com.iwillfailyou.plugin.Inspection;
 
@@ -8,17 +7,15 @@ import java.util.Arrays;
 import java.util.List;
 
 @SuppressWarnings("allfinal") // only for gradle plugin framework
-public class AllfinalExtension {
-    private final List<Boolean> disabled;
-    private final List<Integer> threshold;
+public class AllfinalExtension implements InspectionExtension {
+    private final CommonExtension common;
     private final List<Boolean> skipInterfaceMethodParams;
     private final List<Boolean> skipLambdaParams;
     private final List<Boolean> skipCatchParams;
 
     public AllfinalExtension() {
         this(
-            Arrays.asList(false),
-            Arrays.asList(0),
+            new CommonExtension(),
             Arrays.asList(true),
             Arrays.asList(false),
             Arrays.asList(false)
@@ -26,25 +23,35 @@ public class AllfinalExtension {
     }
 
     public AllfinalExtension(
-        final List<Boolean> disabled,
-        final List<Integer> threshold,
+        final CommonExtension common,
         final List<Boolean> skipInterfaceMethodParams,
         final List<Boolean> skipLambdaParams,
         final List<Boolean> skipCatchParams
     ) {
-        this.disabled = disabled;
-        this.threshold = threshold;
+        this.common = common;
         this.skipInterfaceMethodParams = skipInterfaceMethodParams;
         this.skipLambdaParams = skipLambdaParams;
         this.skipCatchParams = skipCatchParams;
     }
 
+    @Override
     public void setDisabled(final boolean disabled) {
-        this.disabled.set(0, disabled);
+        this.common.setDisabled(disabled);
     }
 
+    @Override
+    public void setExclude(final List<String> exclude) {
+        this.common.setExclude(exclude);
+    }
+
+    @Override
+    public void inheritExclude(final List<String> exclude) {
+        this.common.inheritExclude(exclude);
+    }
+
+    @Override
     public void setThreshold(final int threshold) {
-        this.threshold.set(0, threshold);
+        this.common.setThreshold(threshold);
     }
 
     public void setSkipInterfaceMethodParams(final boolean skipInterfaceMethodParams) {
@@ -59,14 +66,15 @@ public class AllfinalExtension {
         this.skipCatchParams.set(0, skipCatchParams);
     }
 
+    @Override
     public Inspection inspection() {
         final Inspection inspection;
-        if (disabled.get(0)) {
+        if (common.getDisabled()) {
             inspection = new Inspection.Fake();
         } else {
             inspection = new Allfinal(
-                new JavaSourceMask(),
-                threshold.get(0),
+                common.mask(),
+                common.getThreshold(),
                 skipInterfaceMethodParams.get(0),
                 skipLambdaParams.get(0),
                 skipCatchParams.get(0)

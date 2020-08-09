@@ -47,13 +47,23 @@ public final class IwillfailyouPlugin implements Plugin<Project> {
             "allpublic",
             AllpublicExtension.class
         );
+        final SetterFreeExtension setterfreeSettings = settingsExtensions.create(
+            "setterfree",
+            SetterFreeExtension.class
+        );
+        final NoMultipleReturnExtension nomultiplereturnSettings = settingsExtensions.create(
+            "nomultiplereturn",
+            NoMultipleReturnExtension.class
+        );
 
         target.task("iwillfailyou").doLast((final Task task) -> {
             final List<Inspection> inspections = new ListOf<>(
                 nullfreeSettings.inspection(),
                 staticfreeSettings.inspection(),
                 allfinalSettings.inspection(),
-                allpublicSettings.inspection()
+                allpublicSettings.inspection(),
+                nomultiplereturnSettings.inspection(),
+                setterfreeSettings.inspection()
             );
             try {
                 final List<Inspection> wrapped;

@@ -15,6 +15,7 @@ import com.iwillfailyou.plugin.PublicInspection;
 import com.nikialeksey.goo.Goo;
 import com.nikialeksey.goo.GooException;
 import com.nikialeksey.goo.Origin;
+import org.cactoos.func.SolidFunc;
 import org.cactoos.list.ListOf;
 import org.cactoos.list.Mapped;
 import org.gradle.api.GradleScriptException;
@@ -71,7 +72,7 @@ public final class IwillfailyouPlugin implements Plugin<Project> {
                 inspectionExtension.inheritExclude(settings.getExclude());
             }
             final List<Inspection> inspections = new Mapped<>(
-                InspectionExtension::inspection,
+                new SolidFunc<>(InspectionExtension::inspection),
                 inspectionExtensions
             );
             try {

@@ -5,7 +5,7 @@ import com.iwillfailyou.plugin.Inspection;
 
 import java.util.List;
 
-@SuppressWarnings("inheritancefree") // only for gradle plugin framework
+@SuppressWarnings("allfinal") // only for gradle plugin framework
 public class InheritancefreeExtension implements InspectionExtension {
     private final CommonExtension common;
 

@@ -2,6 +2,7 @@ package com.iwillfailyou;
 
 import com.iwillfailyou.inspections.AllfinalExtension;
 import com.iwillfailyou.inspections.AllpublicExtension;
+import com.iwillfailyou.inspections.InheritancefreeExtension;
 import com.iwillfailyou.inspections.InspectionExtension;
 import com.iwillfailyou.inspections.NoMultipleReturnExtension;
 import com.iwillfailyou.inspections.NullfreeExtension;
@@ -64,6 +65,10 @@ public final class IwillfailyouPlugin implements Plugin<Project> {
             settingsExtensions.create(
                 "nomultiplereturn",
                 NoMultipleReturnExtension.class
+            ),
+            settingsExtensions.create(
+                "inheritancefree",
+                InheritancefreeExtension.class
             )
         );
 

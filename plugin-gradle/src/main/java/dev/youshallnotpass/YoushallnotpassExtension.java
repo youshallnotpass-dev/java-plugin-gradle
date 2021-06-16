@@ -1,22 +1,22 @@
-package com.iwillfailyou;
+package dev.youshallnotpass;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 @SuppressWarnings("allfinal") // only for gradle plugin framework
-public class IwillfailyouExtension {
+public class YoushallnotpassExtension {
     private final List<Boolean> offline;
     private final List<String> exclude;
 
-    public IwillfailyouExtension() {
+    public YoushallnotpassExtension() {
         this(
             Arrays.asList(false),
             new ArrayList<>()
         );
     }
 
-    public IwillfailyouExtension(
+    public YoushallnotpassExtension(
         final List<Boolean> offline,
         final List<String> exclude
     ) {

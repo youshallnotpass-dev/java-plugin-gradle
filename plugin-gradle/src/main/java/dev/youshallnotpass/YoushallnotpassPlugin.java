@@ -1,24 +1,24 @@
-package com.iwillfailyou;
+package dev.youshallnotpass;
 
-import com.iwillfailyou.inspections.AllfinalExtension;
-import com.iwillfailyou.inspections.AllpublicExtension;
-import com.iwillfailyou.inspections.InheritancefreeExtension;
-import com.iwillfailyou.inspections.InspectionExtension;
-import com.iwillfailyou.inspections.NoMultipleReturnExtension;
-import com.iwillfailyou.inspections.NullfreeExtension;
-import com.iwillfailyou.inspections.SetterFreeExtension;
-import com.iwillfailyou.inspections.StaticfreeExtension;
-import com.iwillfailyou.plugin.Inspection;
-import com.iwillfailyou.plugin.IwfyException;
-import com.iwillfailyou.plugin.IwfyPlugin;
-import com.iwillfailyou.plugin.IwfyUrls;
-import com.iwillfailyou.plugin.PublicInspection;
+import dev.youshallnotpass.inspections.AllfinalExtension;
+import dev.youshallnotpass.inspections.AllpublicExtension;
+import dev.youshallnotpass.inspections.InheritancefreeExtension;
+import dev.youshallnotpass.inspections.InspectionExtension;
+import dev.youshallnotpass.inspections.NoMultipleReturnExtension;
+import dev.youshallnotpass.inspections.NullfreeExtension;
+import dev.youshallnotpass.inspections.SetterFreeExtension;
+import dev.youshallnotpass.inspections.StaticfreeExtension;
 import com.nikialeksey.goo.Goo;
 import com.nikialeksey.goo.GooException;
 import com.nikialeksey.goo.Origin;
+import dev.youshallnotpass.plugin.Inspection;
+import dev.youshallnotpass.plugin.PublicInspection;
+import dev.youshallnotpass.plugin.YsnpException;
+import dev.youshallnotpass.plugin.YsnpPlugin;
+import dev.youshallnotpass.plugin.YsnpUrls;
 import org.cactoos.func.SolidFunc;
+import org.cactoos.iterable.Mapped;
 import org.cactoos.list.ListOf;
-import org.cactoos.list.Mapped;
 import org.gradle.api.GradleScriptException;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
@@ -30,13 +30,13 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class IwillfailyouPlugin implements Plugin<Project> {
+public final class YoushallnotpassPlugin implements Plugin<Project> {
     @Override
     public void apply(final Project target) {
         final ExtensionContainer targetExtensions = target.getExtensions();
-        final IwillfailyouExtension settings = targetExtensions.create(
-            "iwillfailyou",
-            IwillfailyouExtension.class
+        final YoushallnotpassExtension settings = targetExtensions.create(
+            "youshallnotpass",
+            YoushallnotpassExtension.class
         );
         final ExtensionAware settingsExtension = (ExtensionAware) settings;
         final ExtensionContainer settingsExtensions = settingsExtension.getExtensions();
@@ -72,13 +72,15 @@ public final class IwillfailyouPlugin implements Plugin<Project> {
             )
         );
 
-        target.task("iwillfailyou").doLast((final Task task) -> {
+        target.task("youshallnotpass").doLast((final Task task) -> {
             for (final InspectionExtension inspectionExtension : inspectionExtensions) {
                 inspectionExtension.inheritExclude(settings.getExclude());
             }
-            final List<Inspection> inspections = new Mapped<>(
-                new SolidFunc<>(InspectionExtension::inspection),
-                inspectionExtensions
+            final List<Inspection> inspections = new ListOf<>(
+                new Mapped<>(
+                    new SolidFunc<>(InspectionExtension::inspection),
+                    inspectionExtensions
+                )
             );
             try {
                 final List<Inspection> wrapped;
@@ -93,32 +95,32 @@ public final class IwillfailyouPlugin implements Plugin<Project> {
                         for (final Inspection inspection : inspections) {
                             wrapped.add(
                                 new PublicInspection(
-                                    new IwfyUrls(
+                                    new YsnpUrls(
                                         origin,
-                                        "https://www.iwillfailyou.com"
+                                        "https://www.youshallnotpass.dev"
                                     ),
                                     inspection
                                 )
                             );
                         }
                     } catch (final GooException e) {
-                        throw new IwfyException(
+                        throw new YsnpException(
                             "Could not get the origin for git repo. You can " +
                                 "use offline version, if you have not git " +
-                                "repo yet, just set the iwillfailyou { " +
+                                "repo yet, just set the youshallnotpass { " +
                                 "offline = true }",
                             e
                         );
                     }
                 }
-                new IwfyPlugin(
+                new YsnpPlugin(
                     new GradleUi(target.getLogger()),
                     target.getRootDir(),
                     wrapped
                 ).run();
-            } catch (final IwfyException e) {
+            } catch (final YsnpException e) {
                 throw new GradleScriptException(
-                    "Can not make the iwillfailyou analysis.",
+                    "Can not make the youshallnotpass analysis.",
                     e
                 );
             }

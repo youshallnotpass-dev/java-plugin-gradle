@@ -1,34 +1,45 @@
 plugins {
     id 'java-gradle-plugin'
-    id 'com.gradle.plugin-publish' version '0.11.0'
+    id 'com.gradle.plugin-publish' version '0.15.0'
     id 'jacoco'
 }
 
+group = 'dev.youshallnotpass'
+version = '0.6.1'
+
 pluginBundle {
-    website = 'https://github.com/iwillfailyou/java-plugin-gradle'
-    vcsUrl = 'https://github.com/nikialeksey/java-plugin-gradle.git'
-    tags = ['java', 'oop', 'elegantobjects', 'iwilfailyou', 'nullfree']
+    website = 'https://github.com/youshallnotpass-dev/java-plugin-gradle'
+    vcsUrl = 'https://github.com/youshallnotpass-dev/java-plugin-gradle.git'
+    description = 'Youshallnotpass - is the plugin for failing not elegant projects'
+    tags = ['java', 'oop', 'elegantobjects', 'youshallnotpass', 'nullfree']
+
+    plugins {
+        youshallnotpassPlugin {
+            displayName = 'Youshallnotpass'
+        }
+    }
+
+    mavenCoordinates {
+        groupId = project.group.toString()
+        artifactId = project.name
+        version = project.version.toString()
+    }
 }
 
 gradlePlugin {
     plugins {
-        greetingsPlugin {
-            id = 'com.iwillfailyou'
-            displayName = 'Iwillfailyou'
-            description = 'Iwillfailyou - is the plugin for failing not elegant projects'
-            implementationClass = 'com.iwillfailyou.IwillfailyouPlugin'
+        youshallnotpassPlugin {
+            id = 'dev.youshallnotpass'
+            implementationClass = 'dev.youshallnotpass.YoushallnotpassPlugin'
         }
     }
 }
 
 sourceCompatibility = 1.8
-group = ext.group
-version = '0.5.0'
 
 dependencies {
     implementation gradleApi()
-    implementation 'com.iwillfailyou:java-plugin:0.0.4'
-    implementation 'com.iwillfailyou:java-inspections:0.8.1'
+    implementation 'dev.youshallnotpass:java-inspections:0.9.4'
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
 

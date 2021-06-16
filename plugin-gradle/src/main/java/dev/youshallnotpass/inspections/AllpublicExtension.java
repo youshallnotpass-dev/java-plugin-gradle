@@ -1,21 +1,21 @@
-package com.iwillfailyou.inspections;
+package dev.youshallnotpass.inspections;
 
-import com.iwillfailyou.inspections.inheritancefree.Inheritancefree;
-import com.iwillfailyou.plugin.Inspection;
+import dev.youshallnotpass.inspections.allpublic.Allpublic;
+import dev.youshallnotpass.plugin.Inspection;
 
 import java.util.List;
 
 @SuppressWarnings("allfinal") // only for gradle plugin framework
-public class InheritancefreeExtension implements InspectionExtension {
+public class AllpublicExtension implements InspectionExtension {
     private final CommonExtension common;
 
-    public InheritancefreeExtension() {
+    public AllpublicExtension() {
         this(
             new CommonExtension()
         );
     }
 
-    public InheritancefreeExtension(
+    public AllpublicExtension(
         final CommonExtension common
     ) {
         this.common = common;
@@ -47,7 +47,7 @@ public class InheritancefreeExtension implements InspectionExtension {
         if (common.getDisabled()) {
             inspection = new Inspection.Fake();
         } else {
-            inspection = new Inheritancefree(
+            inspection = new Allpublic(
                 common.mask(),
                 common.getThreshold()
             );

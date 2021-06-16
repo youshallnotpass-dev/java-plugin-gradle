@@ -1,21 +1,21 @@
-package com.iwillfailyou.inspections;
+package dev.youshallnotpass.inspections;
 
-import com.iwillfailyou.inspections.setterfree.SetterFree;
-import com.iwillfailyou.plugin.Inspection;
+import dev.youshallnotpass.inspections.staticfree.Staticfree;
+import dev.youshallnotpass.plugin.Inspection;
 
 import java.util.List;
 
 @SuppressWarnings("allfinal") // only for gradle plugin framework
-public class SetterFreeExtension implements InspectionExtension {
+public class StaticfreeExtension implements InspectionExtension {
     private final CommonExtension common;
 
-    public SetterFreeExtension() {
+    public StaticfreeExtension() {
         this(
             new CommonExtension()
         );
     }
 
-    public SetterFreeExtension(
+    public StaticfreeExtension(
         final CommonExtension common
     ) {
         this.common = common;
@@ -47,7 +47,7 @@ public class SetterFreeExtension implements InspectionExtension {
         if (common.getDisabled()) {
             inspection = new Inspection.Fake();
         } else {
-            inspection = new SetterFree(
+            inspection = new Staticfree(
                 common.mask(),
                 common.getThreshold()
             );

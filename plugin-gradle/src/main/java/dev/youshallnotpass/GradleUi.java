@@ -1,6 +1,6 @@
-package com.iwillfailyou;
+package dev.youshallnotpass;
 
-import com.iwillfailyou.plugin.Ui;
+import dev.youshallnotpass.plugin.Ui;
 import org.gradle.api.logging.Logger;
 
 public final class GradleUi implements Ui {

@@ -1,29 +1,24 @@
-package com.iwillfailyou.inspections;
+package dev.youshallnotpass.inspections;
 
-import com.iwillfailyou.inspections.nullfree.Nullfree;
-import com.iwillfailyou.plugin.Inspection;
+import dev.youshallnotpass.inspections.inheritancefree.Inheritancefree;
+import dev.youshallnotpass.plugin.Inspection;
 
-import java.util.Arrays;
 import java.util.List;
 
 @SuppressWarnings("allfinal") // only for gradle plugin framework
-public class NullfreeExtension implements InspectionExtension {
+public class InheritancefreeExtension implements InspectionExtension {
     private final CommonExtension common;
-    private final List<Boolean> skipComparisons;
 
-    public NullfreeExtension() {
+    public InheritancefreeExtension() {
         this(
-            new CommonExtension(),
-            Arrays.asList(false)
+            new CommonExtension()
         );
     }
 
-    public NullfreeExtension(
-        final CommonExtension common,
-        final List<Boolean> skipComparisons
+    public InheritancefreeExtension(
+        final CommonExtension common
     ) {
         this.common = common;
-        this.skipComparisons = skipComparisons;
     }
 
     @Override
@@ -46,19 +41,14 @@ public class NullfreeExtension implements InspectionExtension {
         this.common.setThreshold(threshold);
     }
 
-    public void setSkipComparisons(final boolean skipComparisons) {
-        this.skipComparisons.set(0, skipComparisons);
-    }
-
     @Override
     public Inspection inspection() {
         final Inspection inspection;
         if (common.getDisabled()) {
             inspection = new Inspection.Fake();
         } else {
-            inspection = new Nullfree(
+            inspection = new Inheritancefree(
                 common.mask(),
-                skipComparisons.get(0),
                 common.getThreshold()
             );
         }

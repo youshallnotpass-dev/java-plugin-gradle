@@ -1,21 +1,21 @@
-package com.iwillfailyou.inspections;
+package dev.youshallnotpass.inspections;
 
-import com.iwillfailyou.inspections.nomultiplereturn.NoMultipleReturn;
-import com.iwillfailyou.plugin.Inspection;
+import dev.youshallnotpass.inspections.setterfree.SetterFree;
+import dev.youshallnotpass.plugin.Inspection;
 
 import java.util.List;
 
 @SuppressWarnings("allfinal") // only for gradle plugin framework
-public class NoMultipleReturnExtension implements InspectionExtension {
+public class SetterFreeExtension implements InspectionExtension {
     private final CommonExtension common;
 
-    public NoMultipleReturnExtension() {
+    public SetterFreeExtension() {
         this(
             new CommonExtension()
         );
     }
 
-    public NoMultipleReturnExtension(
+    public SetterFreeExtension(
         final CommonExtension common
     ) {
         this.common = common;
@@ -47,7 +47,7 @@ public class NoMultipleReturnExtension implements InspectionExtension {
         if (common.getDisabled()) {
             inspection = new Inspection.Fake();
         } else {
-            inspection = new NoMultipleReturn(
+            inspection = new SetterFree(
                 common.mask(),
                 common.getThreshold()
             );
